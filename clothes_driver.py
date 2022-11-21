@@ -6,9 +6,7 @@ from tabulate import tabulate
 
 def main():
 
-    cnnt.load_fashion_mnist_data()
-    exit(1)
-
+    # TODO: Should use load_clothes_data after implementing glasses and MNIST datasets merge
     # Loading fashion MNIST datasets for both CNN and FCN networks
     X_train_cnn, y_train_cnn, X_valid_cnn, y_valid_cnn, X_test_cnn, y_test_cnn = cnnt.load_fashion_mnist_data()
     X_train_fcn, y_train_fcn, X_valid_fcn, y_valid_fcn, X_test_fcn, y_test_fcn = cnnt.load_fashion_mnist_data(data_order

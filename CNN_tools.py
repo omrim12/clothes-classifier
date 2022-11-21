@@ -42,6 +42,36 @@ def conv(fmap_patch, filtMat, b):
                    for i in range(filtMat.shape[2])]) + b
 
 
+def load_clothes_data(data_order='cnn'):
+    """
+    return: Clothes dataset assembled of both fashion MNIST
+            and glasses datasets
+    """
+    # Loading fashion MNIST datasets
+    X_train_mnist, y_train_mnist, \
+    X_valid_mnist, y_valid_mnist, \
+    X_test_mnist, y_test_mnist = load_fashion_mnist_data(data_order=data_order)
+
+    # Loading glasses datasets
+    X_train_glass, y_train_glass,\
+    X_valid_glass, y_valid_glass,\
+    X_test_glass, y_test_glass = load_glasses_data(data_order=data_order)
+
+    # Merging datasets
+    # TODO: implement this block
+
+    return None, None, None, None, None, None
+
+
+def load_glasses_data(data_order='cnn'):
+    """
+    return: Glasses datasets seperated to train,
+            validation and test datasets
+    """
+    # TODO: implement this function using appropriate database
+    return None, None, None, None, None, None
+
+
 def load_fashion_mnist_data(data_order='cnn'):
     """
     :return: Fashion MNIST dataset seperated to train,
@@ -52,14 +82,6 @@ def load_fashion_mnist_data(data_order='cnn'):
     (X_train_full, y_train_full), (X_test, y_test) = fashion_mnist
     X_train, y_train = X_train_full[:-5000], y_train_full[:-5000]
     X_valid, y_valid = X_train_full[-5000:], y_train_full[-5000:]
-
-    for i in range(X_train.shape[0]):
-        plt.imshow(X_train[i])
-        plt.draw()
-        plt.pause(0.01)
-        plt.clf()
-
-    exit(1)
 
     # scale the pixel intensities down to 0-1 range by dividing them by 255.0
     # this also converts them to floats.
