@@ -5,7 +5,7 @@
 #### with a feature addition for glasses.
 
 ## Get started
-#### Run the application in your local environment
+#### Run the application in your local environment from git
 1. Clone the repo:
 ```bash
 git clone https://github.com/omrim12/clothes-classifier.git

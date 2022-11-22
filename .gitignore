@@ -1,7 +1,7 @@
 # Untrack virtual environments
 venv
 
-# Untrack __pycache directories
+# Untrack __pycache__ directories
 __pycache__
 
 # Untrack Jetbrains .idea folder
