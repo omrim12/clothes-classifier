@@ -1,6 +1,11 @@
 # clothes-classifier
-## Run the application in your local environment
+## Description
+#### This application provides a CNN based AI model for identifying clothing items types.
+#### This model is being pre-trained in runtime against the Tensorflow keras fashion MNIST dataset
+#### with a feature addition for glasses.
 
+## Get started
+#### Run the application in your local environment
 1. Clone the repo:
 ```bash
 git clone https://github.com/omrim12/clothes-classifier.git
@@ -27,6 +32,7 @@ pip3 install -r requirements.txt
 
 5. Run the application:
 ```bash
-python3 clothes_driver.py
+python3 src/clothes-classifier/clothes_driver.py
 ```
 
+### [Visit our GitHub project](https://github.com/omrim12/clothes-classifier)

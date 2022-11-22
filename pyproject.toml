@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clothes_classifier"
+version = "1.0.0"
+authors = [
+  { name="Omri Bar-Haim", email="omribh1995@gmail.com" },
+    { name="Roy Caspi", email="caspi7@hotmail.com" },
+]
+description = "Clothes-Classifier application python package"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/omrim12/clothes-classifier"
