@@ -1,8 +1,7 @@
 # clothes-classifier
 ## Description
 #### This application provides a CNN based AI model for identifying clothing items types.
-#### This model is being pre-trained in runtime against the Tensorflow keras fashion MNIST dataset
-#### with a feature addition for glasses.
+#### This model is being pre-trained in runtime against the Tensorflow keras fashion MNIST dataset.
 
 ## Get started
 #### Run the application in your local environment from git

@@ -1,48 +1,11 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
+from tabulate import tabulate
 import tensorflow.keras as keras
 from tensorflow.keras import layers
-from tensorflow.keras.datasets import mnist
 
 
-def ReLU(Z):
-    """
-    :return: ReLU transform of Z
-    """
-    A = np.copy(Z)
-    A[A < 0] = 0
-    return A
-
-
-def zero_pad(X, p):
-    """
-    zero_pad -zero padding all feature maps in a dataset X.
-    The padding is carried out on the height and width dimensions.
-    Input Arguments:
-    X - np array of shape (m, height, width, n_c)
-    p - integer, number of zeros to add on each side
-    Returns:
-    Xp - X after zero padding of size (m, height + 2 * p, width + 2 * p, n_c)
-    """
-    return np.pad(X, [(0, 0), (p, p), (p, p), (0, 0)], mode='constant', constant_values=(0, 0))
-
-
-def conv(fmap_patch, filtMat, b):
-    """
-     conv - apply a dot product of one patch of a previous layer feature map
-     Input Arguments:
-     fmap_patch - patch of the input data of shape (f, f, n_c)
-     filtMat - Weight parameters of shape (f, f, n_c)
-     b - Bias parameters of shape (1, 1, 1)
-     Returns:
-     y - a scalar value, the result of convulsing the sliding window (W, b) on a slice of the input data
-     """
-    return np.sum([np.sum(fmap_patch[:, :, i] * filtMat[:, :, i])
-                   for i in range(filtMat.shape[2])]) + b
-
-
-def load_clothes_data(data_order='cnn'):
+def load_clothes_data():
     """
     return: Clothes dataset assembled of both fashion MNIST
             and glasses datasets
@@ -50,12 +13,12 @@ def load_clothes_data(data_order='cnn'):
     # Loading fashion MNIST datasets
     X_train_mnist, y_train_mnist, \
     X_valid_mnist, y_valid_mnist, \
-    X_test_mnist, y_test_mnist = load_fashion_mnist_data(data_order=data_order)
+    X_test_mnist, y_test_mnist = load_fashion_mnist_data()
 
     # Loading glasses datasets
-    X_train_glass, y_train_glass,\
-    X_valid_glass, y_valid_glass,\
-    X_test_glass, y_test_glass = load_glasses_data(data_order=data_order)
+    X_train_glass, y_train_glass, \
+    X_valid_glass, y_valid_glass, \
+    X_test_glass, y_test_glass = load_glasses_data()
 
     # Merging datasets
     # TODO: implement this block
@@ -63,7 +26,7 @@ def load_clothes_data(data_order='cnn'):
     return None, None, None, None, None, None
 
 
-def load_glasses_data(data_order='cnn'):
+def load_glasses_data():
     """
     return: Glasses datasets seperated to train,
             validation and test datasets
@@ -72,7 +35,7 @@ def load_glasses_data(data_order='cnn'):
     return None, None, None, None, None, None
 
 
-def load_fashion_mnist_data(data_order='cnn'):
+def load_fashion_mnist_data():
     """
     :return: Fashion MNIST dataset seperated to train,
              validation and test datasets.
@@ -87,60 +50,7 @@ def load_fashion_mnist_data(data_order='cnn'):
     # this also converts them to floats.
     X_train, X_valid, X_test = X_train / 255., X_valid / 255., X_test / 255.
 
-    # Convert dataset tensor to a 2D matrix
-    if data_order == 'fcn':
-        X_train = X_train.reshape((X_train.shape[0], X_train.shape[1] ** 2))
-        X_valid = X_valid.reshape((X_valid.shape[0], X_valid.shape[1] ** 2))
-        X_test = X_test.reshape((X_test.shape[0], X_test.shape[1] ** 2))
-
     return X_train, y_train, X_valid, y_valid, X_test, y_test
-
-
-def conv_forward(Fmap_input, filt_weights, b, p=0, s=1):
-    """
-     Forward propagation - convnet
-     Input Arguments:
-     Fmap_input - input feature maps (or output of previous layer),
-     np array (m, n_H, n_W, n_C)
-     m - number of input samples, n_H - hight, n_W - 'width', n_C - number of channels
-     filt_weights - Weights, numpy array of shape (f, f, n_C, n_filt)
-     b - bias, numpy array of shape (1, 1, 1, n_filt)
-     p - padding parameter (default: p = 0), s - stride (default: s = 1)
-     Returns:
-     Fmap_output - output, numpy array of shape (m, n_H, n_W, n_filt)
-    """
-    # Initializing output map
-    out_height = int(np.floor(((Fmap_input.shape[1] - filt_weights.shape[0] + 2 * p) / s) + 1))
-    out_width = int(np.floor(((Fmap_input.shape[2] - filt_weights.shape[1] + 2 * p) / s) + 1))
-    num_samples = Fmap_input.shape[0]
-    num_filters = filt_weights.shape[3]
-    output_map = np.zeros(shape=(num_samples, out_width, out_height, num_filters))
-
-    # Performing convolution process:
-    # Convulsing input feature map patches with each filter
-    f = filt_weights.shape[0]
-    n_w = Fmap_input.shape[2]
-    n_h = Fmap_input.shape[1]
-
-    for m in range(num_samples):
-        for i in range(0, n_h - f + 1, s):
-            for j in range(0, n_w - f + 1, s):
-                for k in range(num_filters):
-                    # Extracting current stride's patch to convolve with filters
-                    curr_patch = Fmap_input[m, i:i + f, j:j + f, :]
-                    curr_filter = filt_weights[:, :, :, k]
-                    curr_bias = b[:, :, :, k]
-
-                    # Convulsing filter and patch and applying ReLU activation
-                    conv_res = ReLU(conv(curr_patch, curr_filter, curr_bias))
-
-                    # Applying results at output map
-                    output_map[m, int(i / s), int(j / s), k] = conv_res[0, 0, 0]
-
-    # Zero padding output map
-    output_map = zero_pad(output_map, p)
-
-    return output_map
 
 
 def CNN_simulation(X_train, y_train, X_valid, y_valid, X_test, y_test, conv_type='valid'):
@@ -194,3 +104,55 @@ def CNN_simulation(X_train, y_train, X_valid, y_valid, X_test, y_test, conv_type
     test_loss, test_acc = model.evaluate(X_test, y_test)
 
     return model, test_loss, test_acc
+
+
+def classify_input(image_array: np.array, cnn_model) -> str:
+    """
+    image_array: input image converted to numpy array
+    return: clothing item type
+
+    This function recieves an image represented by numpy array
+    and returns most similar clothing item determined by patterns
+    that were trained by CNN model
+    """
+    # TODO: Adjust image size
+
+    # TODO: pass image in cnn_model to get compatible clothing item
+
+    # TODO: classify result-to-cloth name (might need to use enum/dict)
+
+    return "CLOTH"
+
+
+def CNN_train():
+    """
+    returns trained CNN model based on fashion MNIST database.
+    """
+    # TODO: Should use load_clothes_data after implementing glasses and MNIST datasets merge
+    # Loading fashion MNIST datasets for CNN input
+    X_train_cnn, y_train_cnn, X_valid_cnn, y_valid_cnn, X_test_cnn, y_test_cnn = load_fashion_mnist_data()
+
+    # a. Training CNN "same" using the fashion MNIST dataset
+    print("--- Running CNN 'same' learning simulation using the fashion MNIST dataset ---\n")
+    same_model, same_loss, same_acc = CNN_simulation(X_train_cnn, y_train_cnn,
+                                                     X_valid_cnn, y_valid_cnn,
+                                                     X_test_cnn, y_test_cnn,
+                                                     conv_type='same')
+
+    # Training CNN "valid" using the fashion MNIST dataset
+    print("\n\n--- Running CNN 'valid' learning simulation using the fashion MNIST dataset ---\n")
+    valid_model, valid_loss, valid_acc = CNN_simulation(X_train_cnn, y_train_cnn,
+                                                        X_valid_cnn, y_valid_cnn,
+                                                        X_test_cnn, y_test_cnn,
+                                                        conv_type='valid')
+
+    # Comparing results of 'same' & 'valid' CNNs
+    table = [['Accuracy', same_acc, valid_acc],
+             ['Loss', same_loss, valid_loss]]
+    print('\n\n', tabulate(table, headers=["Property", "'same' CNN", "'valid' CNN"]))
+
+    # Determine best model by model accuracy
+    if valid_acc > same_acc:
+        return valid_model
+
+    return same_model
