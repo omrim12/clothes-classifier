@@ -35,4 +35,5 @@ pip3 install -r requirements.txt
 python3 src/clothes-classifier/clothes_driver.py
 ```
 
-### [Visit our GitHub project](https://github.com/omrim12/clothes-classifier)
+### [Visit our GitHub page](https://github.com/omrim12/clothes-classifier)
+### [Visit our PyPI page](https://test.pypi.org/project/clothes-classifier/1.0.0/)
