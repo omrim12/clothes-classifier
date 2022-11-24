@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+from CONSTANTS import clothes
 from tabulate import tabulate
 import tensorflow.keras as keras
 from tensorflow.keras import layers
@@ -106,7 +107,7 @@ def CNN_simulation(X_train, y_train, X_valid, y_valid, X_test, y_test, conv_type
     return model, test_loss, test_acc
 
 
-def classify_input(image_array: np.array, cnn_model) -> str:
+def classify_client_input(image_array: np.array, cnn_model) -> str:
     """
     image_array: input image converted to numpy array
     return: clothing item type
@@ -115,13 +116,11 @@ def classify_input(image_array: np.array, cnn_model) -> str:
     and returns most similar clothing item determined by patterns
     that were trained by CNN model
     """
-    # TODO: Adjust image size
+    # pass image in cnn_model to predict compatible clothing item
+    cloth_predict = cnn_model.predict(np.array([image_array]))
 
-    # TODO: pass image in cnn_model to get compatible clothing item
-
-    # TODO: classify result-to-cloth name (might need to use enum/dict)
-
-    return "CLOTH"
+    # Return corresponding clothing item
+    return clothes[np.argmax(cloth_predict[0])]
 
 
 def CNN_train():

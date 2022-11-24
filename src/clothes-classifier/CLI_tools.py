@@ -1,9 +1,7 @@
 import numpy as np
 from PIL import Image
-from pathlib import Path
 import CNN_tools as cnnt
 from termcolor import cprint
-import matplotlib.pyplot as plt
 
 
 def image_2_np(image_name: str) -> np.array:
@@ -20,12 +18,12 @@ def image_2_np(image_name: str) -> np.array:
     try:
         # Try opening the image and resize. if missing, return None.
         img = Image.open(image_name).resize((28, 28), Image.ANTIALIAS)
-        plt.imshow(img)
-        plt.show()
-        exit(1)
 
-        # Convert image to numpy array and return it.
-        return np.array(5)
+        # Convert image to numpy array with RGB average value
+        # and scaled pixel intensities in range 0-1
+        img_array = np.mean(np.array(img), axis=2) / 255.
+
+        return img_array
 
     except FileNotFoundError as fnf:
         return None
@@ -59,10 +57,10 @@ def CLI_session(cnn_model):
             if len(command) != 2:
                 cprint("Invalid command. Please try again\n", "red")
             else:
-                # Convert given image to np array
+                # Convert given image to numpy array
                 image_array = image_2_np(command[1])
-                if image_array:
-                    cprint(f"Your image has been classified as {cnnt.classify_input(image_array, cnn_model)}!\n",
+                if image_array is not None:
+                    cprint(f"Your image has been classified as {cnnt.classify_client_input(image_array, cnn_model)}!\n",
                            "green")
                 else:
                     cprint(f"Invalid path to image given. Please try again\n", "red")
