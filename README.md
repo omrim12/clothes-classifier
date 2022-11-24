@@ -34,5 +34,19 @@ pip3 install -r requirements.txt
 python3 src/clothes-classifier/clothes_driver.py
 ```
 
+*Note: for using `classify` tool, mount your cloth item image under the project dir.*
+
+#### Supported clothing types:
+- T-shirt/top 
+- Trouser
+- Pullover 
+- Dress 
+- Coat 
+- Sandal 
+- Shirt 
+- Sneaker 
+- Bag 
+- Ankle boot
+
 ### [Visit our GitHub page](https://github.com/omrim12/clothes-classifier)
 ### [Visit our PyPI page](https://test.pypi.org/project/clothes-classifier/1.0.0/)

@@ -1,8 +1,12 @@
-# Untrack virtual environments
-venv
+# virtual environments
+venv*
 
-# Untrack __pycache__ directories
+# __pycache__ directories
 __pycache__
 
-# Untrack Jetbrains .idea folder
+# Jetbrains .idea folder
 .idea
+
+# images
+*.jpg
+*.png

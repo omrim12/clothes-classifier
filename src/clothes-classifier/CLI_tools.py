@@ -1,27 +1,38 @@
-import os
 import numpy as np
+from PIL import Image
+from pathlib import Path
 import CNN_tools as cnnt
 from termcolor import cprint
+import matplotlib.pyplot as plt
 
 
-def image_2_np(image_path: str) -> np.array:
+def image_2_np(image_name: str) -> np.array:
     """
-    image_path: relative/absolute path to client given image to classify
-    return: image converted to np array if path is valid else None
+    image_path: client given image to classify
+    return: image converted to np array if exists else None
 
-    This function parses a given image path to an actual image,
-    normalizes and flattens it within a numpy array to be given
-    as an input to classify using a trained CNN model.
+    This function parses actual image, normalizes and flattens
+    it within a numpy array to be given as an input to classify
+    using a trained CNN model.
+
+    *Note: Image should be mounted under project directory.*
     """
-    # TODO: try looking opening the image. if missing, return None.
+    try:
+        # Try opening the image and resize. if missing, return None.
+        img = Image.open(image_name).resize((28, 28), Image.ANTIALIAS)
+        plt.imshow(img)
+        plt.show()
+        exit(1)
 
-    # TODO: else, convert image to numpy array and return it.
+        # Convert image to numpy array and return it.
+        return np.array(5)
 
-    return np.array(5)
+    except FileNotFoundError as fnf:
+        return None
 
 
 def usage_prompt():
-    return ("~~~~~~ CLI usage options: ~~~~~~\n"
+    return ("\n~~~~~~ CLI usage options: ~~~~~~\n"
             "#> classify <cloth_image_path> - classify cloth input image\n"
             "#> exit                        - exit CLI session\n"
             "#> help / <any-other-command>  - show usage options\n")
@@ -48,12 +59,13 @@ def CLI_session(cnn_model):
             if len(command) != 2:
                 cprint("Invalid command. Please try again\n", "red")
             else:
+                # Convert given image to np array
                 image_array = image_2_np(command[1])
                 if image_array:
                     cprint(f"Your image has been classified as {cnnt.classify_input(image_array, cnn_model)}!\n",
                            "green")
                 else:
-                    print(f"Invalid path to file given. Please try again\n", "red")
+                    cprint(f"Invalid path to image given. Please try again\n", "red")
 
         elif command[0] == 'exit':
             if len(command) > 1:
