@@ -10,3 +10,6 @@ __pycache__
 # images
 *.jpg
 *.png
+
+# keras models
+*.h5
