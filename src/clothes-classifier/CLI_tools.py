@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import CNN_tools as cnnt
+from termcolor import cprint
 
 
 def image_2_np(image_path: str) -> np.array:
@@ -35,30 +36,28 @@ def CLI_session(cnn_model):
     """
     exit_cli = False
 
-    # Show usage prompt
-    print(usage_prompt())
-
     while not exit_cli:
+        # Show usage prompt
+        cprint(usage_prompt(), "yellow")
+
         # Get client input
         command = input("#> ").split(" ")
 
         # Classifier option
         if command[0] == 'classify':
             if len(command) != 2:
-                print("Invalid command. Please try again\n")
+                cprint("Invalid command. Please try again\n", "red")
             else:
                 image_array = image_2_np(command[1])
                 if image_array:
-                    print(f"Your image has been classified as {cnnt.classify_input(image_array, cnn_model)}!\n")
+                    cprint(f"Your image has been classified as {cnnt.classify_input(image_array, cnn_model)}!\n",
+                           "green")
                 else:
-                    print(f"Invalid path to file given. Please try again\n")
+                    print(f"Invalid path to file given. Please try again\n", "red")
 
         elif command[0] == 'exit':
             if len(command) > 1:
-                print("Invalid command. Please try again\n")
+                cprint("Invalid command. Please try again\n", "red")
             else:
                 exit_cli = True
                 continue
-
-        # Re-prompt usage
-        print(usage_prompt())
