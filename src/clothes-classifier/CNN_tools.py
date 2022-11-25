@@ -3,8 +3,6 @@ import tensorflow as tf
 from keras import layers
 from tensorflow import keras
 from CONSTANTS import clothes, image_size
-import matplotlib.pyplot as plt
-from PIL import Image
 
 
 def load_clothes_data():

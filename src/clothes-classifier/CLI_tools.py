@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 import CNN_tools as cnnt
@@ -73,4 +72,4 @@ def CLI_session(cnn_model):
                 cprint("Invalid command. Please try again\n", "red")
             else:
                 exit_cli = True
-                continue
+
