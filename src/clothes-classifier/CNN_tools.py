@@ -1,9 +1,10 @@
 import numpy as np
 import tensorflow as tf
-from CONSTANTS import clothes
-from tabulate import tabulate
-import tensorflow.keras as keras
-from tensorflow.keras import layers
+from keras import layers
+from tensorflow import keras
+from CONSTANTS import clothes, image_size
+import matplotlib.pyplot as plt
+from PIL import Image
 
 
 def load_clothes_data():
@@ -72,7 +73,7 @@ def CNN_simulation(X_train, y_train, X_valid, y_valid, X_test, y_test, conv_type
     to the fashion MNIST dataset.
     """
     # Init CNN inputs tensor
-    inputs = keras.Input(shape=(28, 28, 1))
+    inputs = keras.Input(shape=(image_size, image_size, 1))
 
     # Run convolution & max-pooling
     X = layers.Conv2D(filters=32, kernel_size=(3, 3), activation='relu', padding=conv_type)(inputs)
@@ -99,7 +100,7 @@ def CNN_simulation(X_train, y_train, X_valid, y_valid, X_test, y_test, conv_type
     model.compile(optimizer='rmsprop',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
-    model.fit(X_train, y_train, epochs=5, batch_size=64)
+    model.fit(X_train, y_train, epochs=5, batch_size=64, validation_data=(X_valid, y_valid))
 
     # Computing loss & accuracy over the entire test set
     test_loss, test_acc = model.evaluate(X_test, y_test)
@@ -120,7 +121,7 @@ def classify_client_input(image_array: np.array, cnn_model) -> str:
     cloth_predict = cnn_model.predict(np.array([image_array]))
 
     # Return corresponding clothing item
-    return clothes[np.argmax(cloth_predict[0])]
+    return clothes[np.argmax(cloth_predict)]
 
 
 def CNN_train():
@@ -129,26 +130,21 @@ def CNN_train():
     """
     # TODO: Should use load_clothes_data after implementing glasses and MNIST datasets merge
     # Loading fashion MNIST datasets for CNN input
-    X_train_cnn, y_train_cnn, X_valid_cnn, y_valid_cnn, X_test_cnn, y_test_cnn = load_fashion_mnist_data()
+    X_train, y_train, X_valid, y_valid, X_test, y_test = load_fashion_mnist_data()
 
     # a. Training CNN "same" using the fashion MNIST dataset
     print("--- Running CNN 'same' learning simulation using the fashion MNIST dataset ---\n")
-    same_model, same_loss, same_acc = CNN_simulation(X_train_cnn, y_train_cnn,
-                                                     X_valid_cnn, y_valid_cnn,
-                                                     X_test_cnn, y_test_cnn,
+    same_model, same_loss, same_acc = CNN_simulation(X_train, y_train,
+                                                     X_valid, y_valid,
+                                                     X_test, y_test,
                                                      conv_type='same')
 
     # Training CNN "valid" using the fashion MNIST dataset
     print("\n\n--- Running CNN 'valid' learning simulation using the fashion MNIST dataset ---\n")
-    valid_model, valid_loss, valid_acc = CNN_simulation(X_train_cnn, y_train_cnn,
-                                                        X_valid_cnn, y_valid_cnn,
-                                                        X_test_cnn, y_test_cnn,
+    valid_model, valid_loss, valid_acc = CNN_simulation(X_train, y_train,
+                                                        X_valid, y_valid,
+                                                        X_test, y_test,
                                                         conv_type='valid')
-
-    # Comparing results of 'same' & 'valid' CNNs
-    table = [['Accuracy', same_acc, valid_acc],
-             ['Loss', same_loss, valid_loss]]
-    print('\n\n', tabulate(table, headers=["Property", "'same' CNN", "'valid' CNN"]))
 
     # Determine best model by model accuracy
     if valid_acc > same_acc:

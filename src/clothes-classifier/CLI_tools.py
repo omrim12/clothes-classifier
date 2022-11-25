@@ -1,7 +1,9 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 import CNN_tools as cnnt
 from termcolor import cprint
+from CONSTANTS import image_size
 
 
 def image_2_np(image_name: str) -> np.array:
@@ -17,15 +19,16 @@ def image_2_np(image_name: str) -> np.array:
     """
     try:
         # Try opening the image and resize. if missing, return None.
-        img = Image.open(image_name).resize((28, 28), Image.ANTIALIAS)
+        img = Image.open(image_name).resize((image_size, image_size), Image.ANTIALIAS)
 
         # Convert image to numpy array with RGB average value
         # and scaled pixel intensities in range 0-1
-        img_array = np.mean(np.array(img), axis=2) / 255.
+        # Since app requires white background, moving to negative image array.
+        img_array = (255 - np.mean(np.array(img), axis=2)) / 255.
 
         return img_array
 
-    except FileNotFoundError as fnf:
+    except FileNotFoundError:
         return None
 
 

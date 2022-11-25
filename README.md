@@ -34,8 +34,8 @@ pip3 install -r requirements.txt
 python3 src/clothes-classifier/clothes_driver.py
 ```
 
-*Note: for using `classify` tool, mount your cloth item image under the project dir.*
-
+*Notes: for using `classify` tool, mount your cloth item image under the project dir*
+*; cloth image should contain white background*
 #### Supported clothing types:
 - T-shirt/top 
 - Trouser
