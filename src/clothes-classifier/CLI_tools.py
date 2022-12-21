@@ -1,34 +1,6 @@
-import numpy as np
-from PIL import Image
-import CNN_tools as cnnt
 from termcolor import cprint
-from CONSTANTS import image_size
-
-
-def image_2_np(image_name: str) -> np.array:
-    """
-    image_path: client given image to classify
-    return: image converted to np array if exists else None
-
-    This function parses actual image, normalizes and flattens
-    it within a numpy array to be given as an input to classify
-    using a trained CNN model.
-
-    *Note: Image should be mounted under project directory.*
-    """
-    try:
-        # Try opening the image and resize. if missing, return None.
-        img = Image.open(image_name).resize((image_size, image_size), Image.ANTIALIAS)
-
-        # Convert image to numpy array with RGB average value
-        # and scaled pixel intensities in range 0-1
-        # Since app requires white background, moving to negative image array.
-        img_array = (255 - np.mean(np.array(img), axis=2)) / 255.
-
-        return img_array
-
-    except FileNotFoundError:
-        return None
+from img_utils import analyze_img
+from CNN_tools import classify_client_input
 
 
 def usage_prompt():
@@ -60,9 +32,9 @@ def CLI_session(cnn_model):
                 cprint("Invalid command. Please try again\n", "red")
             else:
                 # Convert given image to numpy array
-                image_array = image_2_np(command[1])
+                image_array = analyze_img(command[1])
                 if image_array is not None:
-                    cprint(f"Your image has been classified as {cnnt.classify_client_input(image_array, cnn_model)}!\n",
+                    cprint(f"Your image has been classified as {classify_client_input(image_array, cnn_model)}!\n",
                            "green")
                 else:
                     cprint(f"Invalid path to image given. Please try again\n", "red")

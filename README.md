@@ -35,7 +35,6 @@ python3 src/clothes-classifier/clothes_driver.py
 ```
 
 *Notes: for using `classify` tool, mount your cloth item image under the project dir*
-*; cloth image should contain white background*
 #### Supported clothing types:
 - T-shirt/top 
 - Trouser
