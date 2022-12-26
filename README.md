@@ -48,4 +48,4 @@ python3 src/clothes-classifier/clothes_driver.py
 - Ankle boot
 
 ### [Visit our GitHub page](https://github.com/omrim12/clothes-classifier)
-### [Visit our PyPI page](https://test.pypi.org/project/clothes-classifier/1.0.1/)
+### [Visit our PyPI page](https://test.pypi.org/project/clothes-classifier/1.0.2/)
