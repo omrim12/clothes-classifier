@@ -5,36 +5,6 @@ from tensorflow import keras
 from CONSTANTS import clothes, image_size
 
 
-def load_clothes_data():
-    """
-    return: Clothes dataset assembled of both fashion MNIST
-            and glasses datasets
-    """
-    # Loading fashion MNIST datasets
-    X_train_mnist, y_train_mnist, \
-    X_valid_mnist, y_valid_mnist, \
-    X_test_mnist, y_test_mnist = load_fashion_mnist_data()
-
-    # Loading glasses datasets
-    X_train_glass, y_train_glass, \
-    X_valid_glass, y_valid_glass, \
-    X_test_glass, y_test_glass = load_glasses_data()
-
-    # Merging datasets
-    # TODO: implement this block
-
-    return None, None, None, None, None, None
-
-
-def load_glasses_data():
-    """
-    return: Glasses datasets seperated to train,
-            validation and test datasets
-    """
-    # TODO: implement this function using appropriate database
-    return None, None, None, None, None, None
-
-
 def load_fashion_mnist_data():
     """
     :return: Fashion MNIST dataset seperated to train,
