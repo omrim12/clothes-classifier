@@ -16,6 +16,18 @@ def load_fashion_mnist_data():
     X_train, y_train = X_train_full[:-5000], y_train_full[:-5000]
     X_valid, y_valid = X_train_full[-5000:], y_train_full[-5000:]
 
+    # Performing data augmentation by adding datasets images reverted
+    X_train_revert, X_valid_revert, X_test_revert = np.array([np.fliplr(image) for image in X_train]), \
+                                                     np.array([np.fliplr(image) for image in X_valid]), \
+                                                     np.array([np.fliplr(image) for image in X_test])
+
+    X_train, X_valid, X_test = np.concatenate((X_train, X_train_revert), axis=0), \
+                               np.concatenate((X_valid, X_valid_revert), axis=0), \
+                               np.concatenate((X_test, X_test_revert), axis=0)
+    y_train, y_valid, y_test = np.concatenate((y_train, y_train), axis=0), \
+                               np.concatenate((y_valid, y_valid), axis=0), \
+                               np.concatenate((y_test, y_test), axis=0)
+
     # scale the pixel intensities down to 0-1 range by dividing them by 255.0
     # this also converts them to floats.
     X_train, X_valid, X_test = X_train / 255., X_valid / 255., X_test / 255.
