@@ -15,7 +15,7 @@ def CLI_session(cnn_model):
     cnn_model: Trained CNN model based on fashion MNIST datasets
 
     This function provides a client interface wrapper for classifying
-    clothing items by a given image path using the trained CNN model.
+    clothing items by a given image path using the trained CNN model
     """
     exit_cli = False
 

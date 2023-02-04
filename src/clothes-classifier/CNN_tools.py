@@ -50,7 +50,7 @@ def CNN_simulation(X_train, y_train, X_valid, y_valid, X_test, y_test, conv_type
     based on fixed parameters that define the convolution network topology.
     It performs feature extraction using convolution & max-pooling layers
     and eventually runs a NN learning process to produce a model corresponding
-    to the fashion MNIST dataset.
+    to the fashion MNIST dataset
     """
     # Init CNN inputs tensor
     inputs = keras.Input(shape=(image_size, image_size, 1))
@@ -106,7 +106,7 @@ def classify_client_input(image_array: np.array, cnn_model) -> str:
 
 def CNN_train():
     """
-    returns trained CNN model based on fashion MNIST database.
+    returns trained CNN model based on fashion MNIST database
     """
     # TODO: Should use load_clothes_data after implementing glasses and MNIST datasets merge
     # Loading fashion MNIST datasets for CNN input
