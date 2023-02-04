@@ -8,7 +8,7 @@ from CONSTANTS import clothes, image_size
 def load_fashion_mnist_data():
     """
     :return: Fashion MNIST dataset seperated to train,
-             validation and test datasets.
+             validation and test datasets
     """
     # Initializing fashion MNIST data from keras dataset
     fashion_mnist = tf.keras.datasets.fashion_mnist.load_data()
