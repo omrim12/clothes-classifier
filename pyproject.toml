@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "clothes_classifier"
-version = "1.0.2"
+version = "1.0.3"
 authors = [
   { name="Omri Bar-Haim", email="omribh1995@gmail.com" },
     { name="Roy Caspi", email="caspi7@hotmail.com" },

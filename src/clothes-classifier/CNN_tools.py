@@ -108,7 +108,6 @@ def CNN_train():
     """
     returns trained CNN model based on fashion MNIST database
     """
-    # TODO: Should use load_clothes_data after implementing glasses and MNIST datasets merge
     # Loading fashion MNIST datasets for CNN input
     X_train, y_train, X_valid, y_valid, X_test, y_test = load_fashion_mnist_data()
 
